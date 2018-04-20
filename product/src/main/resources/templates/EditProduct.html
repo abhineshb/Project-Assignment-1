@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" type="text/css" href="../../css/OM.css">
+<title>Edit Product</title>
+</head>
+<body>
+	<div class="alignCenter padding15">
+		<div class="floatLeft selectWidth15" th:id="id"
+			th:text="${prodDetails.id}"></div>
+		<div class="floatLeft selectWidth30 alignLeft" th:id="name"
+			th:text="${prodDetails.name}"></div>
+		<div class="floatLeft selectWidth10" th:id="description"
+			th:text="${prodDetails.description}"></div>
+		<div class="floatLeft selectWidth10 alignRight" th:id="price"
+			th:text="${prodDetails.price}"></div>
+		<div class="floatLeft selectWidth10 alignRight" th:id="quantity"
+			th:text="${prodDetails.quantity}"></div>
+		<div class="clear"></div>
+	</div>
+	<div class="floatRight selectWidth35">
+		<div class="padding10"></div>
+		<input id="QuickEdit" type="submit" value="Edit Product"
+			class="greenButton">
+	</div>
+</body>
+</html>

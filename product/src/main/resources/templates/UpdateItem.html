@@ -1,0 +1,248 @@
+<!DOCTYPE html5>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, target-densityDpi=device-dpi, user-scalable=no"/>
+<title>Product Inventory</title>
+
+<link rel="stylesheet" type="text/css" href="../../css/OM.css">
+<script src="../../js/jquery-3.2.0.js">
+</script>
+<script>
+
+var product;
+window.onload = function() {
+	
+	
+	// displayProducts();
+	 //	
+	}
+
+function confirmDelete( id)
+{
+	alert('delete icobliecked' + id);
+	if (document.getElementById(id).checked == true){
+	    
+		$.ajax({
+			url : '/deleteProduct/'+id,
+			contentType: 'application/json; charset=utf-8',
+			type : 'DELETE',
+		    cache: false,
+		    success : function(response){
+		    	displayProducts();	   
+		    }
+		});
+		
+	  } else {
+	     alert('Please select the check bor for delete');
+	  }
+	}
+function displayProducts() {
+	//debugger;
+	  var obj, dbParam, xmlhttp, myObj, x, txt = "";
+	  obj = { "table":"AA", "limit":20 };
+	  dbParam = JSON.stringify(obj);
+	  xmlhttp = new XMLHttpRequest();
+	  xmlhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	      document.getElementById("div1").innerHTML =
+	      this.responseText;
+	    }
+	  };
+	  xmlhttp.open("GET", "/items", true);
+	  xmlhttp.setRequestHeader("Content-type", "text/html");
+	  xmlhttp.send();
+	}
+
+/*$(document).ready(function(){	
+	$("#prodForm").submit(function(e){
+		var form = $("#prodForm");
+		e.preventDefault();
+	var formData = {};
+	formData["id"] = $('#productId').val();
+	formData["name"] = $('#productName').val();
+	formData["description"] = $('#productDesc').val();
+	formData["price"] = $('#productPrice').val();
+	formData["quantity"] = $('#productQuantity').val();
+	if(validateField()){
+		alert('iffff1');
+	$.ajax({
+		url : '/addProduct',
+		contentType: 'application/json; charset=utf-8',
+		type : 'POST',
+	    dataType : 'json',
+	    data : JSON.stringify(formData),
+	    cache: false,
+	    success : function(response){
+	    		   $("#div1").html(response);
+	    }
+	});
+	alert("Product Added");
+	$('#prodForm')[0].reset();
+    displayProducts();
+	}
+	else 
+		{
+		alert('else');
+		return false;
+		}
+		
+	});
+});*/
+
+function validateField()
+{
+	var error_free=true;
+
+		var input=$('#productId');
+		var is_name=input.val();
+		if(isNaN(is_name))
+			{
+			error_free=false;
+			}
+		if(is_name){
+			input.removeClass("invalid").addClass("valid");
+			var valid=input.hasClass("valid");
+			var error_element=$("span", input.parent());
+		if (!valid){
+			error_element.removeClass("error").addClass("error_show"); error_free=false;
+			}
+		else{
+			error_element.removeClass("error_show").addClass("error");
+		}
+	}
+		else{
+			
+			input.removeClass("valid").addClass("invalid");
+			var valid=input.hasClass("valid");
+			var error_element=$("span", input.parent());
+			if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
+			else{error_element.removeClass("error_show").addClass("error");}	
+		}
+	    
+		
+	
+
+		var input=$('#productName');
+		var is_name=input.val();
+		if(is_name){input.removeClass("invalid").addClass("valid");
+		var valid=input.hasClass("valid");
+		var error_element=$("span", input.parent());
+		if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
+		else{error_element.removeClass("error_show").addClass("error");
+		}
+		}
+		else{
+			input.removeClass("valid").addClass("invalid");
+
+
+			var valid=input.hasClass("valid");
+			var error_element=$("span", input.parent());
+			if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
+			else{error_element.removeClass("error_show").addClass("error");
+			}
+			
+			}
+	
+	
+	
+		var input=$('#productDesc');
+		var is_name=input.val();
+		if(is_name){input.removeClass("invalid").addClass("valid");
+		var valid=input.hasClass("valid");
+		var error_element=$("span", input.parent());
+		if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
+		else{error_element.removeClass("error_show").addClass("error");
+		}
+		}
+		else{
+			input.removeClass("valid").addClass("invalid");
+			var valid=input.hasClass("valid");
+			var error_element=$("span", input.parent());
+			if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
+			else{error_element.removeClass("error_show").addClass("error");}	
+		}
+	
+return  error_free;
+}
+
+</script>
+<body>
+	<form id="prodForm" name="prodForm" action="/addProduct" method="post">
+    <!--Code Starts Here-->
+    <div class="container">
+    	<div class="orangeText boldText padding10">Home Page: Product Management</div>                
+        <div class="headerBarblock">
+        	<div class="floatLeft boldText">&minus;</div>
+            <div class="floatLeft paddingLeft10">Product Inventory</div>
+            <div class="clear"></div>
+        </div>
+    	<!-- Below class to show LEFT and Right border -->
+        <div class="headercontentblock1">                      
+            <div class="container1"> 
+            	<div class="floatLeft scanner"></div>
+                <div class="floatLeft selectWidth85 marginLeft20">
+                	<div class="boldText">To add item enter information below</div>
+                    <div class="spacer2"></div>
+                    <div class="floatLeft selectWidth45">
+                    <div class="padding10">*Product Id</div>
+                        <input th:id="productId"  name="productId" type="text" class="inputboxBg selectWidth45" size="15" maxlength="15" placeholder=""  >
+                        <span class="error">This field is required</span>
+                    </div>
+                    <div class="floatLeft selectWidth75">
+                      <div class="padding10">*Product Name</div>
+                        <input th:id="productName" name="productName" type="text" class="inputboxBg selectWidth80" size="15" maxlength="15" placeholder="">
+                       <span class="error">This field is required</span>
+                      
+                    </div>
+                  
+                    <div class="floatLeft selectWidth45">
+                         <div class="padding10">*Product Description</div>
+                        <input th:id="productDesc"  name="productDesc" type="text" class="inputboxBg selectWidth80" size="15" maxlength="15" placeholder="Electronics product">
+                     <span class="error">This field is required</span>
+                       
+                    </div>
+                    
+                    <div class="floatLeft selectWidth45">
+                         <div class="padding10">*Product Price</div>
+                        <input th:id="productPrice"  name="productPrice" type="text" class="inputboxBg selectWidth80" size="15" maxlength="15" placeholder="Electronics product">
+                     <span class="error">This field is required</span>
+                       
+                    </div>
+                    
+                    <div class="floatLeft selectWidth45">
+                         <div class="padding10">*Product Quantity</div>
+                        <input th:id="productQuantity"  name="productQuantity" type="text" class="inputboxBg selectWidth80" size="15" maxlength="15" placeholder="Electronics product">
+                     <span class="error">This field is required</span>
+                       
+                    </div>
+                        <!--  <div class="floatLeft selectWidth25">
+						<label class="custom-select selectWidth90">
+                            <select>
+                                <option selected> AB1234 </option>
+                                <option value="Option 1">- Select two -</option>
+                                <option value="Option 2">- Select three -</option>
+                            </select>
+                        </label>
+                        <div class="padding10">Sales Rep</div>
+                    </div>-->
+
+                    <div class="floatRight selectWidth35">
+                      <div class="padding10"></div>
+                        <input id="Quick Add" type="submit" value="Add Product" class="greenButton">
+                    </div>                
+                    <div class="clear"></div>
+                    <div class="spacer2"></div>
+                </div>
+                <div class="clear"></div>                                            	                
+
+            </div>
+            </div>
+            </div>
+           
+    <!--Code Ends Here-->
+</form>
+</body>
+</html>
