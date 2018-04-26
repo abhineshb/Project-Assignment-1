@@ -43,37 +43,15 @@ function confirmDelete( id)
 	
 function openUpdatePage(id)
 {
-	alert(id);
 
-	/*	
-		$.ajax({
-			url : '/getUpdatePage/'+id,
-			contentType: 'application/json; charset=utf-8',
-			type : 'GET',
-		    cache: false,
-		    success : function(response){
-		    	debugger;
-		    	var w = window.open();
-		    	$(w.document.body).html(response);
-		    	
-		    }
-	});*/
-	
-	alert("hi");
-	//modal.style.display = "block";
-	$.ajax({
-		url: '/openEditWindow/'+id,
-		contentType: 'application/json; charset=utf-8',
-		type: 'GET',
-		cache: false,
-		success: function(result){
-			$("#editContent").html(result);
-			var w = window.open();
-			$(w.document.body).html(response);
-		}
-	}); 
+	 var w =	 window.open('/getUpdatePage/'+id, "", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=200,width=800,height=500");
 	
 	}
+	
+window.CallParentfunction= function () {  
+    //Your Code Functionality  
+	displayProducts();
+  }
 function displayProducts() {
 	//debugger;
 	  var obj, dbParam, xmlhttp, myObj, x, txt = "";
@@ -84,7 +62,7 @@ function displayProducts() {
 	    if (this.readyState == 4 && this.status == 200) {
 	      document.getElementById("div1").innerHTML =
 	      this.responseText;
-	      displayProducts();
+	    //  displayProducts();
 	    }
 	  };
 	  xmlhttp.open("GET", "/items", true);
@@ -92,6 +70,16 @@ function displayProducts() {
 	  xmlhttp.send();
 	}
 
+$(document).ready(function(){
+	 
+	  $('a').click(function(){
+		  debugger;
+	    window.open(this.href);
+	    return false;
+	  });
+	 
+	});
+	
 $(document).ready(function(){	
 	$("#prodForm").submit(function(e){
 		var form = $("#prodForm");
@@ -104,7 +92,7 @@ $(document).ready(function(){
 	formData["quantity"] = $('#productQuantity').val();
 	if(validateField()){
 	//	alert('iffff1');
-	debugger;
+	//debugger;
 	$.ajax({
 		url : '/addProduct',
 		contentType: 'application/json; charset=utf-8',
@@ -114,7 +102,8 @@ $(document).ready(function(){
 	    cache: false,
 	    success : function(response){
 	    		   $("#div1").html(response);
-	    		   displayProducts();
+	    		//  displayProducts();
+	    	
 	    }
 	});
 	//alert("Product Added");

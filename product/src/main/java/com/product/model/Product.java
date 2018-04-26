@@ -35,6 +35,7 @@ public class Product {
 	//Map<String, Product> productMap = new HashMap<String, Product>() 
 	public static List<Product> prodList = new ArrayList<Product>();
 	
+	
 
 	
 	/**

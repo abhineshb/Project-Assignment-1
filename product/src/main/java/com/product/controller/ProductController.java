@@ -32,35 +32,30 @@ public class ProductController {
 	
 	List<Product> prodList;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET )
-	public String loginPage(Model model) {
-		System.out.println("login here ");
+	@RequestMapping(value = "/login", method = RequestMethod.GET )
+	public String loginPage() {
+		//System.out.println("login here ");
 		return "login";
 	}
 	
+	@RequestMapping(value = "/error", method = RequestMethod.GET )
+	public String loginErrorPage() {
+		//System.out.println("login here ");
+		return "loginFail";
+	}
 
 	@RequestMapping(value = "/homePage", method = RequestMethod.POST)
 	public String UserValidate(@Validated UserDetail user, Model model) {
-		System.out.println(user.getUserId() + "===" + user.getPassword());
-		if (user.getUserId().equals("user") && user.getPassword().equals("password")) {
-			System.out.println("indside");
+		UserDetail userDetails = new UserDetail();
+		String pwd=userDetails.getUsers().get(user.getUserId());
+		if (pwd !=null && pwd.equals(user.getPassword())) {
 			return "ProductHome";
 		} else {
-			System.out.println("else");
 			return "loginFail";
 		}
 	}
 
-	/*@RequestMapping(value = "/getAllProducts", method = RequestMethod.GET, produces = { "application/json" })
-	@ResponseBody
-	public String getAllproduct(@RequestParam String param) {
-		System.out.println(param);
-		Gson g = new Gson();
-
-		return g.toJson(new ArrayList<Product>(productService.getAllProduct().values()));
-	}*/
-
-	//private Map<Long, Product> employeeMap = new HashMap<>();
+	
 
 	@RequestMapping(value = "/items", method = RequestMethod.GET)
 	public String getAllproductItem(Model model) {
@@ -79,6 +74,18 @@ public class ProductController {
 		return "Item";
 	}
 	
+	@RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
+	public String updateProduct(Model model, @RequestBody Product product)
+	{
+		System.out.println("adding products:"+product.getId()+product.getName());
+		
+		productService.updateProduct(product);
+		model.addAttribute("prodDetails", product);
+		
+		return "UpdateItem";
+		
+		
+	}
 	
 	@RequestMapping(value = "/deleteProduct/{id}", method = RequestMethod.DELETE)
 	public String deleteproductItem(@PathVariable long  id,Model model) {
@@ -113,22 +120,21 @@ public class ProductController {
 	
 	
 	@RequestMapping(value = "/getUpdatePage/{id}", method = RequestMethod.GET)
-	public String updateproductItem(@PathVariable long  id,Model model) {
-        System.out.println("Listing Items" + id);
-		Product p =new Product();
+	public String updateproductItem(@PathVariable long id, Model model) {
+		System.out.println("Listing Items" + id);
+		Product p = new Product();
 		// prodList =productService.getAllProduct();
-		 for(Product pp : prodList)
-		 {
-			 if(pp.getId()==id)
-			 {
-				 p.setName(pp.getName());
-				 p.setDescription(pp.getDescription());
-				 p.setPrice(pp.getPrice());
-				 p.setQuantity(pp.getQuantity());
-			 }
-		 }
-		 
-		model.addAttribute("prodList", p);
+		for (Product pp : prodList) {
+			if (pp.getId() == id) {
+				p.setId(id);
+				p.setName(pp.getName());
+				p.setDescription(pp.getDescription());
+				p.setPrice(pp.getPrice());
+				p.setQuantity(pp.getQuantity());
+			}
+		}
+
+		model.addAttribute("prodDetails", p);
 		return "UpdateItem";
 	}
 

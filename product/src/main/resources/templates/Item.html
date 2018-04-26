@@ -16,7 +16,8 @@
 		<div class="alignCenter padding15">
 			<div class="floatLeft selectWidth20 alignLeft blueText">
 				<div class="floatLeft selectWidth40">
-					<div id="Popup" th:onClick="'javascript:openUpdatePage(' + ${prodDetails.id}+ ');'">Update Item</div>
+					 <div id="Popup" th:onClick="'javascript:openUpdatePage(' + ${prodDetails.id}+ ');'">Update Item</div>
+					<!-- <a th:id="${prodDetails.id}"  th:href="'/getUpdatePage/'+${prodDetails.id}"  class="terms" target="_blank">Update Item</a>-->
 					
 				</div>
 				<div class="floatLeft">|</div>

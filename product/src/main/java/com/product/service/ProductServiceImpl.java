@@ -46,7 +46,19 @@ public class ProductServiceImpl  implements ProductService{
 
 	@Override
 	public Product getProduct(long id) {
-		return null;
+		Product p1=null;
+		List<Product> up = Product.prodList;
+		for(Product p: up)
+		{
+			if(p.getId()==id)
+			{
+				p1=p;
+				break;
+			}
+		}
+		
+		return p1;
+		
 	}
 
 	@Override
@@ -73,7 +85,11 @@ public class ProductServiceImpl  implements ProductService{
 	}
 
 	@Override
-	public List<Product> updateProduct(long id) {
-		return null;
+	public void updateProduct(Product p) {
+		
+		Product.prodList.remove(p);
+		Product.prodList.add(p);
+
+		
 	}
 }

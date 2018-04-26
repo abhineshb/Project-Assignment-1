@@ -18,6 +18,6 @@ public interface ProductService {
 	public void removeProduct(long id);
 	
 	public List<Product> updateAllProduct(List<Product> list);
-	public List<Product> updateProduct(long id);
+	public void updateProduct(Product p);
 
 }
